@@ -1,4 +1,4 @@
-#!/use/bin/env bash
+#!/usr/bin/env bash
 
 # Env defaults
 ${ROS_DISTRO:='hydro'}
