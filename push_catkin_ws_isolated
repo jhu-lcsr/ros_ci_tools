@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+WS_PATH=$1
+
+pushd $WS_PATH
+mkdir -p src
+catkin_make_isolated --install
+source install_isolated/setup.bash
+
+

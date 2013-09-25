@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+WS_PATH=$1
+
+pushd $WS_PATH
+mkdir -p src
+ln -s $(dirs +1) src/
+popd
