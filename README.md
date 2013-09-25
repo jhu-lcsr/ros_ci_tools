@@ -15,16 +15,17 @@ before_install:
   # Bootstrap a minimal ROS installation
   - git clone https://raw.github.com/jhu-lcsr/ros_ci_tools /tmp/ros_ci_tools && export PATH=/tmp/ros_ci_tools:$PATH
   - ros_ci_bootstrap
+  # Create isolated workspace based on the ros distro
   - source /opt/ros/$ROS_DISTRO/setup.bash
-  - push_catkin_ws_isolated ~/ws_isolated
-  # Clone other source deps
+  - mkdir -p ~/ws_isolated/src
+  - cd ~/ws_isolated
   - ln -s $CI_SOURCE_PATH src/
   # Install dependencies for source repos
   - rosdep install --from-paths src --ignore-src --rosdistro $ROS_DISTRO -y > /dev/null
 install:
   # Build in an isolated catkin workspace
   - export EXTRA_CMAKE_ARGS="-DENABLE_CORBA=ON -DCORBA_IMPLEMENTATION=OMNIORB"
-  - catkin_make_isolated --install --source . -j1 --cmake-args $EXTRA_CMAKE_ARGS
+  - catkin_make_isolated --install -j1 --cmake-args $EXTRA_CMAKE_ARGS
 script:
   # Run tests... 
   - ""

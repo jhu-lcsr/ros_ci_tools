@@ -16,4 +16,3 @@ sudo apt-get update -qq
 sudo apt-get install -qq -y python-catkin-pkg python-rosdep ros-$ROS_DISTRO-catkin
 sudo rosdep init
 rosdep update
-
