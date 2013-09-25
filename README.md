@@ -6,11 +6,16 @@ ROS Continuous Integration Tools
 #### Isolated Catkin Build
 
 ```yml
-language: [cpp, python]
-python: ["2.7"]
-compiler: [gcc]
+language:
+  - cpp
+  - python
+python:
+  - "2.7"
+compiler:
+  - gcc
 before_install:
   # Define some config vars
+  - export ROS_DISTRO=hydro
   - export CI_SOURCE_PATH=$(pwd)
   # Bootstrap a minimal ROS installation
   - git clone https://raw.github.com/jhu-lcsr/ros_ci_tools /tmp/ros_ci_tools && export PATH=/tmp/ros_ci_tools:$PATH
@@ -22,34 +27,13 @@ before_install:
   - ln -s $CI_SOURCE_PATH src/
   # Install dependencies for source repos
   - rosdep install --from-paths src --ignore-src --rosdistro $ROS_DISTRO -y > /dev/null
+
 install:
   # Build in an isolated catkin workspace
-  - export EXTRA_CMAKE_ARGS="-DENABLE_CORBA=ON -DCORBA_IMPLEMENTATION=OMNIORB"
+  - export EXTRA_CMAKE_ARGS="-DENABLE_TESTS=ON -DENABLE_CORBA=ON -DCORBA_IMPLEMENTATION=OMNIORB"
   - catkin_make_isolated --install -j1 --cmake-args $EXTRA_CMAKE_ARGS
-script:
-  # Run tests... 
-  - ""
-```
 
-#### Isolated Catkin Underlay with Normal Catkin Build
-
-```yml
-language: [cpp, python]
-python: ["2.7"]
-compiler: [gcc]
-before_install:
-  # Define some config vars
-  - export EXTRA_CMAKE_ARGS="-DENABLE_CORBA=ON -DCORBA_IMPLEMENTATION=OMNIORB"
-  # Bootstrap a minimal ROS installation
-  - wget https://raw.github.com/jhu-lcsr/ros_ci_tools/master/ros_ci_bootstrap.sh && chmod +x ros_ci_bootstrap.sh
-  - ./ros_ci_bootstrap.sh
-  # Install dependencies
-  - rosdep install --from-paths . --ignore-src --rosdistro $ROS_DISTRO -y > /dev/null
-install:
-  # Build in an isolated catkin workspace
-  - source /opt/ros/hydro/setup.bash
-  - catkin_make_isolated --install --source . -j1 --cmake-args $EXTRA_CMAKE_ARGS
 script:
-  # Run tests... 
-  - ""
+  # Run tests
+  - pushd build_isolated/rtt && make check && popd
 ```
