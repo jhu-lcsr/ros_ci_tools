@@ -13,6 +13,6 @@ wget http://packages.ros.org/ros.key -O - | sudo apt-key add -
 
 # Update package indexes
 sudo apt-get update -qq
-sudo apt-get install -qq -y python-catkin-pkg python-rosdep ros-$ROS_DISTRO-catkin
+sudo apt-get install -qq -y python-catkin-pkg python-rosdep ros-$ROS_DISTRO-catkin ros-$ROS_DISTRO-ros
 sudo rosdep init
 rosdep update
