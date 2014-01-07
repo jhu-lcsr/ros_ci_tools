@@ -1,6 +1,8 @@
 ROS Continuous Integration Tools
 ================================
 
+This installs a minial ROS shadow-fixed system on Ubuntu Linux.
+
 ### Travis Examples
 
 #### Isolated Catkin Build

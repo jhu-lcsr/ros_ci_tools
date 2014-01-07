@@ -5,13 +5,13 @@
 #[ -z "$SRC_PATHS" ] && SRC_PATHS=$(pwd)
 
 # Allow the user to specify shadow-fixed debian packages, which have newer versions of packages
-DEB_REPO="ros"
+DEB_REPO="ros-shadow-fixed"
 
 if [ $# -eq 1 ]
 then
-  if [ "$1" = "shadow-fixed" ]
+  if [ "$1" = "public" ]
   then
-    DEB_REPO="ros-shadow-fixed"
+    DEB_REPO="ros"
   fi
 fi
 
