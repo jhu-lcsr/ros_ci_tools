@@ -4,10 +4,22 @@
 [ -z "$ROS_DISTRO" ] && ROS_DISTRO="hydro"
 #[ -z "$SRC_PATHS" ] && SRC_PATHS=$(pwd)
 
-echo "[ros_ci_tools] Bootstraping a ROS $ROS_DISTRO installation..."
+# Allow the user to specify shadow-fixed debian packages, which have newer versions of packages
+DEB_REPO="ros"
+
+if [ $# -eq 1 ]
+then
+  if [ "$1" = "shadow-fixed" ]
+  then
+    DEB_REPO="ros-shadow-fixed"
+  fi
+fi
+
+
+echo "[ros_ci_tools] Bootstraping a ROS $ROS_DISTRO installation from the "$DEB_REPO" repositories..."
 
 # Add the ubuntu package repos
-sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu precise main" > /etc/apt/sources.list.d/ros-latest.list'
+sudo sh -c "echo \"deb http://packages.ros.org/$DEB_REPO/ubuntu precise main\" > /etc/apt/sources.list.d/ros-latest.list"
 # Get the apt key
 wget http://packages.ros.org/ros.key -O - | sudo apt-key add -
 
