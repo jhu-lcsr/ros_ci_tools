@@ -2,6 +2,7 @@
 
 # Env defaults
 [ -z "$ROS_DISTRO" ] && ROS_DISTRO="hydro"
+[ -z "$UBUNTU_SUITE" ] && UBUNTU_SUITE=$(lsb_release -cs)
 #[ -z "$SRC_PATHS" ] && SRC_PATHS=$(pwd)
 
 # Allow the user to specify shadow-fixed debian packages, which have newer versions of packages
@@ -19,7 +20,7 @@ fi
 echo "[ros_ci_tools] Bootstraping a ROS $ROS_DISTRO installation from the "$DEB_REPO" repositories..."
 
 # Add the ubuntu package repos
-sudo sh -c "echo \"deb http://packages.ros.org/$DEB_REPO/ubuntu precise main\" > /etc/apt/sources.list.d/ros-latest.list"
+sudo sh -c "echo \"deb http://packages.ros.org/$DEB_REPO/ubuntu $UBUNTU_SUITE main\" > /etc/apt/sources.list.d/ros-latest.list"
 # Get the apt key
 wget http://packages.ros.org/ros.key -O - | sudo apt-key add -
 
